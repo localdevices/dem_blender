@@ -4,7 +4,7 @@ from scipy import ndimage
 import rasterio
 from rasterio.transform import Affine, rowcol
 from opendm import system
-from opendm.dem.commands import compute_euclidean_map
+import compute_euclidean_map
 from opendm import log
 from opendm import io
 import os
