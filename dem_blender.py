@@ -9,7 +9,7 @@ sys.path.insert(0, os.path.join("..", "..", os.path.dirname(__file__)))
 
 import argparse
 import multiprocessing
-from opendm.dem import merge
+import merge
 
 parser = argparse.ArgumentParser(description='Merge and blend DEMs using OpenDroneMap\'s approach.')
 parser.add_argument('input_dems',
