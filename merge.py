@@ -3,10 +3,9 @@ import numpy as np
 from scipy import ndimage
 import rasterio
 from rasterio.transform import Affine, rowcol
-from opendm import system
 import compute_euclidean_map
-from opendm import log
-from opendm import io
+import log
+import odm_io as io
 import os
 
 def euclidean_merge_dems(input_dems, output_dem, creation_options={}, euclidean_map_source=None):
