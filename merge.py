@@ -7,6 +7,32 @@ import euclid
 import log
 import odm_io as io
 import os
+import shutil, errno
+
+def file_exists(path_file):
+    return os.path.isfile(path_file)
+
+def dir_exists(dirname):
+    return os.path.isdir(dirname)
+
+def related_file_path(input_file_path, prefix="", postfix="", replace_base=None):
+    """
+    For example: related_file_path("/path/to/file.ext", "a.", ".b")
+     --> "/path/to/a.file.b.ext"
+    """
+    path, filename = os.path.split(input_file_path)
+
+    # path = path/to
+    # filename = file.ext
+
+    basename, ext = os.path.splitext(filename)
+    # basename = file
+    # ext = .ext
+
+    if replace_base is not None:
+        basename = replace_base
+
+    return os.path.join(path, "{}{}{}{}".format(prefix, basename, postfix, ext))
 
 def euclidean_merge_dems(input_dems, output_dem, creation_options={}, euclidean_map_source=None):
     """
@@ -24,7 +50,7 @@ def euclidean_merge_dems(input_dems, output_dem, creation_options={}, euclidean_
 
     existing_dems = []
     for dem in input_dems:
-        if not io.file_exists(dem):
+        if not file_exists(dem):
             log.ODM_WARNING("%s does not exist. Will skip from merged DEM." % dem)
             continue
         existing_dems.append(dem)
@@ -40,8 +66,8 @@ def euclidean_merge_dems(input_dems, output_dem, creation_options={}, euclidean_
         profile = first.profile
 
     for dem in existing_dems:
-        eumap = euclid.compute_euclidean_map(dem, io.related_file_path(dem, postfix=".euclideand", replace_base=euclidean_map_source), overwrite=False)
-        if eumap and io.file_exists(eumap):
+        eumap = euclid.compute_euclidean_map(dem, related_file_path(dem, postfix=".euclideand", replace_base=euclidean_map_source), overwrite=False)
+        if eumap and file_exists(eumap):
             inputs.append((dem, eumap))
 
     log.ODM_INFO("%s valid DEM rasters to merge" % len(inputs))
