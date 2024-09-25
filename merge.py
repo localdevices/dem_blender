@@ -5,7 +5,6 @@ import rasterio
 from rasterio.transform import Affine, rowcol
 import euclid
 import log
-import odm_io as io
 import os
 import shutil, errno
 
