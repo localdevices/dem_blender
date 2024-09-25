@@ -3,7 +3,7 @@ import numpy as np
 from scipy import ndimage
 import rasterio
 from rasterio.transform import Affine, rowcol
-import compute_euclidean_map
+import euclid
 import log
 import odm_io as io
 import os
@@ -40,7 +40,7 @@ def euclidean_merge_dems(input_dems, output_dem, creation_options={}, euclidean_
         profile = first.profile
 
     for dem in existing_dems:
-        eumap = compute_euclidean_map(dem, io.related_file_path(dem, postfix=".euclideand", replace_base=euclidean_map_source), overwrite=False)
+        eumap = euclid.compute_euclidean_map(dem, io.related_file_path(dem, postfix=".euclideand", replace_base=euclidean_map_source), overwrite=False)
         if eumap and io.file_exists(eumap):
             inputs.append((dem, eumap))
 
