@@ -3,7 +3,7 @@ Blend sets of DEMs by calculating euclidean distance to null values and weightin
 
 Requirements:
 * Directory full of images to blend together
-* NoData should be coded as a value of -9999
+* `NoData` should be coded as a value of -9999
 
 ## Installation
 ```bash
