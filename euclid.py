@@ -7,12 +7,8 @@ import time
 import shutil
 import glob
 import re
-from joblib import delayed, Parallel
-#from opendm.system import run
-#from opendm import point_cloud
+from joblib import delayed, Par
 import io
-#from opendm import system
-#from opendm.concurrency import get_max_memory, parallel_map, get_total_memory
 from datetime import datetime
 from gdal_fillnodata import main as gdal_fillnodata
 import log
