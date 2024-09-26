@@ -1,6 +1,6 @@
 numpy
 scipy
-rasterio
+rasterio>=1.3.11
 joblib
 osgeo
 gdal
