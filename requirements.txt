@@ -3,3 +3,5 @@ scipy
 rasterio>=1.3.11
 joblib
 python-dateutil
+repoze.lru
+vmem
