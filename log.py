@@ -6,10 +6,8 @@ import datetime
 import dateutil.parser
 import shutil
 import multiprocessing
-from repoze.lru import lru_cache
 
-from arghelpers import double_quote, args_to_dict
-from vmem import virtual_memory
+from arghelpers import args_to_dict
 
 if sys.platform == 'win32' or os.getenv('no_ansiesc'):
     # No colors on Windows (sorry !) or existing no_ansiesc env variable 
@@ -31,17 +29,6 @@ else:
 
 lock = threading.Lock()
 
-@lru_cache(maxsize=None)
-def odm_version():
-    with open(os.path.join(os.path.dirname(__file__), "..", "VERSION")) as f:
-        return f.read().split("\n")[0].strip()
-
-def memory():
-    mem = virtual_memory()
-    return {
-        'total': round(mem.total / 1024 / 1024),
-        'available': round(mem.available / 1024 / 1024)
-    }
 
 class ODMLogger:
     def __init__(self):
@@ -64,8 +51,6 @@ class ODMLogger:
         self.json_output_files = output_files
         self.json_output_file = output_files[0]
         self.json = {}
-        self.json['odmVersion'] = odm_version()
-        self.json['memory'] = memory()
         self.json['cpus'] = multiprocessing.cpu_count()
         self.json['images'] = -1
         self.json['options'] = args_to_dict(args)

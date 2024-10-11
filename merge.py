@@ -6,7 +6,7 @@ from rasterio.transform import Affine, rowcol
 import euclid
 import log
 import os
-import shutil, errno
+# import shutil, errno
 
 def file_exists(path_file):
     return os.path.isfile(path_file)
