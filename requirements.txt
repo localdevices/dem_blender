@@ -2,7 +2,6 @@ numpy
 scipy
 rasterio>=1.3.11
 joblib
-osgeo
-gdal
-libgdal
-This should not work (test)
+python-dateutil
+repoze.lru
+vmem

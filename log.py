@@ -8,7 +8,6 @@ import shutil
 import multiprocessing
 from repoze.lru import lru_cache
 
-from arghelpers import double_quote, args_to_dict
 from vmem import virtual_memory
 
 if sys.platform == 'win32' or os.getenv('no_ansiesc'):
@@ -68,7 +67,6 @@ class ODMLogger:
         self.json['memory'] = memory()
         self.json['cpus'] = multiprocessing.cpu_count()
         self.json['images'] = -1
-        self.json['options'] = args_to_dict(args)
         self.json['startTime'] = self.start_time.isoformat()
         self.json['stages'] = []
         self.json['processes'] = []
