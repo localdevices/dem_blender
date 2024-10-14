@@ -1,3 +1,5 @@
+click
+gdal<=3.8.4
 joblib
 numpy
 python-dateutil

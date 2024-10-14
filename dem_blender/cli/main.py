@@ -14,6 +14,8 @@ def print_license(ctx, param, value):
     click.echo(f"GNU Affero General Public License v3 (AGPLv3). See https://www.gnu.org/licenses/agpl-3.0.en.html")
     ctx.exit()
 
+
+
 path_opt = click.option(
     "-p",
     "--path",

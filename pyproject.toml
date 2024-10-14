@@ -13,11 +13,12 @@ packages = [
 
 dependencies = [
     "click",
+    "gdal<=3.8.4",
+    "joblib",
     "numpy",
-    "scipy",
-    "rasterio>=1.3.11",
     "python-dateutil",
-    "joblib"
+    "rasterio>=1.3.11",
+    "scipy",
 ]
 
 requires-python =">=3.9"
