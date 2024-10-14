@@ -7,12 +7,15 @@ import euclid
 import log
 import os
 
+
 def file_exists(path_file):
     return os.path.isfile(path_file)
 
+  
 def dir_exists(dirname):
     return os.path.isdir(dirname)
 
+  
 def related_file_path(input_file_path, prefix="", postfix="", replace_base=None):
     """
     For example: related_file_path("/path/to/file.ext", "a.", ".b")
