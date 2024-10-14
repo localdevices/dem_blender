@@ -6,7 +6,6 @@ import datetime
 import dateutil.parser
 import shutil
 import multiprocessing
-
 from arghelpers import args_to_dict
 
 if sys.platform == 'win32' or os.getenv('no_ansiesc'):
@@ -53,7 +52,6 @@ class ODMLogger:
         self.json = {}
         self.json['cpus'] = multiprocessing.cpu_count()
         self.json['images'] = -1
-        self.json['options'] = args_to_dict(args)
         self.json['startTime'] = self.start_time.isoformat()
         self.json['stages'] = []
         self.json['processes'] = []

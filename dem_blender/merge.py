@@ -6,14 +6,16 @@ from rasterio.transform import Affine, rowcol
 import euclid
 import log
 import os
-# import shutil, errno
+
 
 def file_exists(path_file):
     return os.path.isfile(path_file)
 
+  
 def dir_exists(dirname):
     return os.path.isdir(dirname)
 
+  
 def related_file_path(input_file_path, prefix="", postfix="", replace_base=None):
     """
     For example: related_file_path("/path/to/file.ext", "a.", ".b")
@@ -45,7 +47,6 @@ def euclidean_merge_dems(input_dems, output_dem, creation_options={}, euclidean_
     """
     inputs = []
     bounds=None
-    precision=7
 
     existing_dems = []
     for dem in input_dems:
@@ -139,7 +140,7 @@ def euclidean_merge_dems(input_dems, output_dem, creation_options={}, euclidean_
                 # slightly misaligned
                 #
                 # src_window = get_window(left, bottom, right, top,
-                #                         src.transform, precision=precision)
+                #                         src.transform)
                 #
                 # With rio merge this just adds an extra row, but when the
                 # imprecision occurs at each block, you get artifacts
@@ -148,15 +149,15 @@ def euclidean_merge_dems(input_dems, output_dem, creation_options={}, euclidean_
 
                 # Alternative, custom get_window using rounding
                 src_window_d = tuple(zip(rowcol(
-                        src_d.transform, left, top, op=round, precision=precision
+                        src_d.transform, left, top, op=round
                     ), rowcol(
-                        src_d.transform, right, bottom, op=round, precision=precision
+                        src_d.transform, right, bottom, op=round
                     )))
 
                 src_window_e = tuple(zip(rowcol(
-                        src_e.transform, left, top, op=round, precision=precision
+                        src_e.transform, left, top, op=round
                     ), rowcol(
-                        src_e.transform, right, bottom, op=round, precision=precision
+                        src_e.transform, right, bottom, op=round
                     )))
 
                 temp_d = np.zeros(dst_shape, dtype=dtype)

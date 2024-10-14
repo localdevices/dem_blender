@@ -1,4 +1,7 @@
 """Main API to DEM blender."""
+# Authors: Piero Toffanin, Stephen Mather
+# License: AGPLv3
+
 import os
 import glob
 import sys
