@@ -6,7 +6,6 @@ import datetime
 import dateutil.parser
 import shutil
 import multiprocessing
-from arghelpers import args_to_dict
 
 if sys.platform == 'win32' or os.getenv('no_ansiesc'):
     # No colors on Windows (sorry !) or existing no_ansiesc env variable 

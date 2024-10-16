@@ -3,9 +3,7 @@
 __version__ = "0.1.0"
 
 from .cli import *
-from . import dem_blender
 
 __all__ = [
-    "dem_blender",
     "cli"
 ]

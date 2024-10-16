@@ -50,7 +50,7 @@ test = [
 full = ["dem_blender[extra,test]"]
 
 [project.scripts]
-dem_blender = "dem_blender.cli.main:merge"
+dem_blender = "dem_blender.cli.main:cli"
 
 [project.urls]
 Source = "https://github.com/localdevices/dem_blender"

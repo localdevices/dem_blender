@@ -1,12 +1,15 @@
 import math
 import numpy as np
-from scipy import ndimage
-import rasterio
-from rasterio.transform import Affine, rowcol
-import euclid
-import log
 import os
+import rasterio
 
+from pathlib import Path
+from rasterio.transform import Affine, rowcol
+from scipy import ndimage
+from typing import List
+
+from dem_blender import euclid
+from dem_blender import log
 
 def file_exists(path_file):
     return os.path.isfile(path_file)
@@ -21,21 +24,28 @@ def related_file_path(input_file_path, prefix="", postfix="", replace_base=None)
     For example: related_file_path("/path/to/file.ext", "a.", ".b")
      --> "/path/to/a.file.b.ext"
     """
-    path, filename = os.path.split(input_file_path)
-
+    path = input_file_path.parent
+    filename = input_file_path.name
     # path = path/to
     # filename = file.ext
 
-    basename, ext = os.path.splitext(filename)
+    basename = input_file_path.stem
+    ext = input_file_path.suffix
     # basename = file
     # ext = .ext
 
     if replace_base is not None:
         basename = replace_base
 
-    return os.path.join(path, "{}{}{}{}".format(prefix, basename, postfix, ext))
+    return path / "{}{}{}{}".format(prefix, basename, postfix, ext)
 
-def euclidean_merge_dems(input_dems, output_dem, creation_options={}, euclidean_map_source=None):
+def euclidean_merge_dems(
+        output_dem: Path,
+        input_dems: List[Path] = [],
+        nodata=None,
+        creation_options={},
+        euclidean_map_source=None
+):
     """
     Based on https://github.com/mapbox/rio-merge-rgba
     and ideas from Anna Petrasova
@@ -46,11 +56,12 @@ def euclidean_merge_dems(input_dems, output_dem, creation_options={}, euclidean_
     by a weighted average based on such euclidean distance.
     """
     inputs = []
+    tmp_files = []
     bounds=None
 
     existing_dems = []
     for dem in input_dems:
-        if not file_exists(dem):
+        if not dem.exists():
             log.ODM_WARNING("%s does not exist. Will skip from merged DEM." % dem)
             continue
         existing_dems.append(dem)
@@ -66,9 +77,15 @@ def euclidean_merge_dems(input_dems, output_dem, creation_options={}, euclidean_
         profile = first.profile
 
     for dem in existing_dems:
-        eumap = euclid.compute_euclidean_map(dem, related_file_path(dem, postfix=".euclideand", replace_base=euclidean_map_source), overwrite=False)
-        if eumap and file_exists(eumap):
+        eumap = euclid.compute_euclidean_map(
+            dem,
+            related_file_path(dem, postfix=".euclideand", replace_base=euclidean_map_source),
+            nodata=nodata,
+            overwrite=False
+        )
+        if eumap and os.path.isfile(eumap):
             inputs.append((dem, eumap))
+            tmp_files.append(eumap)
 
     log.ODM_INFO("%s valid DEM rasters to merge" % len(inputs))
 
@@ -196,5 +213,7 @@ def euclidean_merge_dems(input_dems, output_dem, creation_options={}, euclidean_
             dstarr[dstarr == 0.0] = src_nodata
 
             dstrast.write(dstarr, window=dst_window)
-
+    # cleanup
+    for file in tmp_files:
+        file.unlink()
     return output_dem
