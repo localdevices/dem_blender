@@ -1,6 +1,7 @@
 import os
 import rasterio
-import log
+
+from dem_blender import log
 
 try:
     # GDAL >= 3.3
@@ -12,12 +13,10 @@ except ModuleNotFoundError:
     except:
         pass
 
-def compute_euclidean_map(geotiff_path, output_path, overwrite=False):
+def compute_euclidean_map(geotiff_path, output_path, overwrite=False, nodata=None):
     if not os.path.exists(geotiff_path):
         log.ODM_WARNING("Cannot compute euclidean map (file does not exist: %s)" % geotiff_path)
         return
-
-    nodata = -9999
     with rasterio.open(geotiff_path) as f:
         nodata = f.nodatavals[0]
 
@@ -30,7 +29,7 @@ def compute_euclidean_map(geotiff_path, output_path, overwrite=False):
         #if gdal_proximity is not None:
         try:
             gdal_proximity(['gdal_proximity.py', 
-                            geotiff_path, output_path, '-values', str(nodata),
+                            str(geotiff_path), str(output_path), '-values', str(nodata),
                             '-co', 'TILED=YES',
                             '-co', 'BIGTIFF=IF_SAFER',
                             '-co', 'COMPRESS=DEFLATE',
