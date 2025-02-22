@@ -127,6 +127,7 @@ def euclidean_merge_dems(
     profile["tiled"] = creation_options.get('TILED', 'YES') == 'YES'
     profile["blockxsize"] = creation_options.get('BLOCKXSIZE', 512)
     profile["blockysize"] = creation_options.get('BLOCKYSIZE', 512)
+    profile["bigtiff"] = creation_options.get('BIGTIFF', 'IF_SAFER')
     profile["compress"] = creation_options.get('COMPRESS', 'LZW')
     profile["nodata"] = src_nodata
 
